@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/components/user_tile.dart';
 import 'package:flutter_crud/data/dummy_users.dart';
-import 'package:flutter_crud/components/user_tile.dart';
 
 class UserList extends StatelessWidget {
   @override
