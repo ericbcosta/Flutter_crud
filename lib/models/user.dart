@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class User {
-  final String id;
+  final String? id;
   final String name;
   final String email;
   final String avatarUrl;
 
   const User({
-    required this.id,
+    this.id,
     required this.name,
     required this.email,
     required this.avatarUrl,
