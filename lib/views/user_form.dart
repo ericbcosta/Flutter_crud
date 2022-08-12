@@ -1,37 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/user.dart';
 import '../provider/users.dart';
 
 class UserForm extends StatelessWidget {
   final _form = GlobalKey<FormState>();
-  final Map<Object, Object> _formData = {};
+  final Map<String, String> _formData = {};
 
   void _loadFormData(User user) {
-    if (user != null) {
-      _formData['id'] = user.id.toString();
-      _formData['name'] = user.name.toString();
-      _formData['email'] = user.email.toString();
-      _formData['avatarUrl'] = user.avatarUrl.toString();
-    }
+    _formData['id'] = user.id.toString();
+    _formData['name'] = user.name.toString();
+    _formData['email'] = user.email.toString();
+    _formData['avatarUrl'] = user.avatarUrl.toString();
   }
+
+  UserForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final user = ModalRoute.of(context)?.settings.arguments as User;
-    _loadFormData(user);
+    final user = ModalRoute.of(context)!.settings.arguments as User?;
+
+    if (user != null) {
+      _loadFormData(user);
+    } else {
+      _formData['id'] = "";
+      _formData['name'] = "";
+      _formData['email'] = "";
+      _formData['avatarUrl'] = "";
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulário de usuário'),
+        title: const Text('Formulário de usuário'),
         actions: <Widget>[
           IconButton(
             onPressed: () {
               final bool isValid = _form.currentState!.validate();
 
               if (isValid) {
-                _form.currentState?.save();
+                _form.currentState!.save();
 
                 Provider.of<Users>(context, listen: false).put(
                   User(
@@ -45,19 +52,19 @@ class UserForm extends StatelessWidget {
                 Navigator.of(context).pop();
               }
             },
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
           )
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Form(
           key: _form,
           child: Column(
             children: <Widget>[
               TextFormField(
                 initialValue: _formData['name'].toString(),
-                decoration: InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(labelText: 'Nome'),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'nome inválido.';
@@ -73,12 +80,12 @@ class UserForm extends StatelessWidget {
               ),
               TextFormField(
                 initialValue: _formData['email'].toString(),
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'E-mail'),
                 onSaved: (value) => _formData['email'] = value.toString(),
               ),
               TextFormField(
                 initialValue: _formData['avatarUrl'].toString(),
-                decoration: InputDecoration(labelText: 'URL do Avatar'),
+                decoration: const InputDecoration(labelText: 'URL do Avatar'),
                 onSaved: (value) => _formData['avatarUrl'] = value.toString(),
               ),
             ],

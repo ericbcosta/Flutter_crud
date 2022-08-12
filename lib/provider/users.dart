@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/data/dummy_users.dart';
@@ -25,9 +24,11 @@ class Users with ChangeNotifier {
       return;
     }
 
-    if (user.id.toString() != null &&
+    if (user.id != null &&
         user.id.toString().trim().isNotEmpty &&
-        _items.containsKey(user.id.toString())) {
+        _items.containsKey(
+          user.id,
+        )) {
       _items.update(
         user.id.toString(),
         (_) => User(
@@ -53,9 +54,7 @@ class Users with ChangeNotifier {
   }
 
   void remove(User user) {
-    if (user != null && user.id.toString() != null) {
-      _items.remove(user.id.toString());
-      notifyListeners();
-    }
+    _items.remove(user.id.toString());
+    notifyListeners();
   }
 }
